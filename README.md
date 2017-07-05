@@ -1,5 +1,6 @@
 # Taws - simple tester of your http respones
 
+[![NPM](https://nodei.co/npm/taws.png)](https://nodei.co/npm/taws/)
 
 *Application that run tests suite on http request responses*
 
@@ -218,9 +219,11 @@ Arguments:
 
 *Example*:
 ```js
-     try {
-         validateConfig(testConfig, true);
-     } catch (error) {
-         console.warn('Schema validation error:', error);
-     }
+    const { validateConfig } = require('taws');
+
+    try {
+        validateConfig(testConfig, true);
+    } catch (error) {
+        console.warn('Schema validation error:', error);
+    }
 ```

@@ -16,6 +16,10 @@
   "engines": {
     "node": ">= 6.0.0"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/DreamLab/taws.git"
+  },
   "dependencies": {
     "jsonschema": "1.1.1",
     "lodash": "^4.17.4",
