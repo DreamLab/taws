@@ -9,9 +9,7 @@ const params = {
         "options" : {
             "method" : "GET",
             "url" : "https://restcountries.eu/rest/v2/name/Poland",
-            "headers" : {},
-            "json": true,
-            "body" : {}
+            "headers" : {}
         },
         "tests" : [{
             "type" : "regexp",

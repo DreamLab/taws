@@ -9,7 +9,7 @@ describe('Validator', () => {
         'config': [{
             'type': 'request',
             'options': {
-                'method': 'POST',
+                'method': 'GET',
                 'url': 'https://restcountries.eu/rest/v2/name/Poland',
                 'json': true
             },

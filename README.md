@@ -2,10 +2,10 @@
 
 [![NPM](https://nodei.co/npm/taws.png)](https://nodei.co/npm/taws/)
 
-*Application that run tests suite on http request responses*
+*Library for runnning tests suite on http request responses.*
 
 
-### Usage
+### Getting Started
 
 
 1. Install Taws in your project
@@ -21,9 +21,7 @@
             "options" : {
                 "method" : "GET",
                 "url" : "https://restcountries.eu/rest/v2/name/Poland",
-                "headers" : {},
-                "json": true,
-                "body" : {}
+                "headers" : {}
             },
             "tests" : [{
                 "type" : "regexp",
@@ -82,9 +80,6 @@ Taws `TestsRunner` *run* method accepts tests suite to run.
                 "url" : "https://restcountries.eu/rest/v2/name/Poland",
                 "headers" : {
                     "cache-control" : "no-cache"
-                },
-                "body" : {
-                    "data" : "hello"
                 }
             },
             "tests" : [{
@@ -113,30 +108,18 @@ Tests suite configuration consist of actions that are executed synchronously in 
  There are two types of actions to use
 1. `request` type - run http request
     
-    Requires `options` key with request definition ( see https://github.com/request/request)
+    __Requires `options` key with request definition ( see https://github.com/request/request )__
     
     ```json
-     {
-         "type" : "request",
-         "options" : {
-             "method" : "GET",
-             "url" : "http://go-lists-proxy.pulse2.cloudint.onet/api/sections/e10207a7-6623-4740-bb33-9344d92a52ed/b0c0dd25-d129-4f95-9ffb-04064106627d",
-             "headers" : {
-                 "cache-control" : "no-cache",
-                 "x-pulse2-sessionid" : "1340b1be-a24b-4ad7-9590-270a9b723a47",
-                 "cookie" : "pulse2-sessionId=1340b1be-a24b-4ad7-9590-270a9b723a47"
-             },
-             "body" : {
-                 "data" : {
-                     "config" : {
-                         "link_url" : null,
-                         "elements_published" : 3,
-                         "display_title" : "sample section 9"
-                     }
-                 }
-             }
-         }
-     }
+    {
+        "type" : "request",
+        "options" : {
+            "method" : "GET",
+            "url" : "https://restcountries.eu/rest/v2/name/Poland",
+            "headers" : {
+                "cache-control" : "no-cache"
+            }
+    }
     ```
     
     This action accepts a tests definition to run on a response of request.
@@ -199,12 +182,17 @@ Below you find common use examples:
      {
          "type" : "request",
          "options" : {
-             "method" : "GET",
-             "url" : "https://restcountries.eu/rest/v2/name/${response[0].name}",
+             "method" : "POST",
+             "url" : "https://myexampleapiendoint.com/${response[0].name}",
              "headers" : {
-                 "cache-control" : "no-cache"
+                 "cache-control" : "no-cache",
+                 "my-custom-header": "example-header"
              },
-             "body" : {}
+             "body" : {
+                 "data": {
+                    "age": 25
+                 }
+             }
          }
      }
 ```
