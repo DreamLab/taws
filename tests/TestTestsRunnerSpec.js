@@ -26,11 +26,11 @@ describe('TestsRunner', () => {
     });
 
     it('run method should return resolved promise with statistics', (done) => {
-        spyOn(testRunner, 'runRequest').andCallFake(() => { return Promise.resolve(); });
-        spyOn(testRunner, 'runDelay').andCallFake(() => { return Promise.resolve(); });
+        spyOn(testRunner, 'processRequest').andCallFake(() => { return Promise.resolve(); });
+        spyOn(testRunner, 'processDelay').andCallFake(() => { return Promise.resolve(); });
         testRunner.run(testConfig).then(function(result) {
-            expect(testRunner.runRequest).toHaveBeenCalled();
-            expect(testRunner.runDelay).toHaveBeenCalled();
+            expect(testRunner.processRequest).toHaveBeenCalled();
+            expect(testRunner.processDelay).toHaveBeenCalled();
             expect(Object.keys(result) === Object.keys(testRunner.statistics));
             done();
         });
@@ -51,7 +51,7 @@ describe('TestsRunner', () => {
         expect(console.info).not.toHaveBeenCalled();
     });
 
-    it('runRequest method should call tests on response when response ready', (done) => {
+    it('processRequest method should call tests on response when response ready', (done) => {
         spyOn(testRunner, 'fillTemplateWithData').andCallFake(() => { return {url: 'http://tests.pl/test'}; });
         testRunner.resetStatistics();
         nock('http://tests.pl').get('/test').reply(200, {body: 'Hello'});
@@ -59,15 +59,50 @@ describe('TestsRunner', () => {
         // mock testing method
         spyOn(testRunner, 'runTestsOnResponse').andCallFake(() => { return Promise.resolve(); });
 
-        testRunner.runRequest(testConfig[0]).then((result) => {
+        testRunner.processRequest(testConfig[0]).then((result) => {
             expect(testRunner.fillTemplateWithData).toHaveBeenCalled();
             expect(testRunner.runTestsOnResponse).toHaveBeenCalled();
             done();
         });
     });
 
-    it('runDelay method should resolve after timeout', (done) => {
-        testRunner.runDelay(6).then((result) => {
+    it('processRequest method should retry request when test failed and retry option passed', (done) => {
+        spyOn(testRunner, 'fillTemplateWithData').andCallFake(() => { return {url: 'http://tests.pl/test'}; });
+        testRunner.resetStatistics();
+        const scope = nock('http://tests.pl').get('/test').reply(500, {}).get('/test').reply(200, {});
+
+        //set retry option
+        testConfig[0]['retry'] = 1;
+
+        // mock testing method
+        spyOn(testRunner, 'runTestsOnResponse').andCallFake(() => { return Promise.reject(new Error('failed')); });
+
+        testRunner.processRequest(testConfig[0]).catch((result) => {
+            expect(scope.isDone()).toEqual(true);
+            done();
+        });
+    });
+
+
+    it('processRequest method should not retry request when test passed', (done) => {
+        spyOn(testRunner, 'fillTemplateWithData').andCallFake(() => { return {url: 'http://tests.pl/test'}; });
+        testRunner.resetStatistics();
+        const scope = nock('http://tests.pl').get('/test').reply(200, {});
+
+        //set retry option
+        testConfig[0]['retry'] = 1;
+
+        // mock testing method
+        spyOn(testRunner, 'runTestsOnResponse').andCallFake(() => { return Promise.resolve('ok'); });
+
+        testRunner.processRequest(testConfig[0]).then((result) => {
+            expect(scope.isDone()).toEqual(true);
+            done();
+        });
+    });
+
+    it('processDelay method should resolve after timeout', (done) => {
+        testRunner.processDelay(6).then((result) => {
             done();
         });
     });

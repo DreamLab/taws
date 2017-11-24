@@ -122,6 +122,21 @@ Tests suite configuration consist of actions that are executed synchronously in 
     }
     ```
     
+    If you want to retry request when error occurs, add `retry` key with the desired number of retries
+    
+    ```json
+    {
+        "type" : "request",
+        "retry": 2,
+        "options" : {
+            "method" : "GET",
+            "url" : "https://restcountries.eu/rest/v2/name/Poland",
+            "headers" : {
+                "cache-control" : "no-cache"
+            }
+    }
+    ```
+    
     This action accepts a tests definition to run on a response of request.
     
     See [test-definition](#test-definition) section. 
