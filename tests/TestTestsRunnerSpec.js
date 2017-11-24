@@ -72,7 +72,7 @@ describe('TestsRunner', () => {
         const scope = nock('http://tests.pl').get('/test').reply(500, {}).get('/test').reply(200, {});
 
         //set retry option
-        testConfig[0]['retry'] = 1;
+        testConfig[0]['retries'] = 1;
 
         // mock testing method
         spyOn(testRunner, 'runTestsOnResponse').andCallFake(() => { return Promise.reject(new Error('failed')); });
@@ -90,7 +90,7 @@ describe('TestsRunner', () => {
         const scope = nock('http://tests.pl').get('/test').reply(200, {});
 
         //set retry option
-        testConfig[0]['retry'] = 1;
+        testConfig[0]['retries'] = 1;
 
         // mock testing method
         spyOn(testRunner, 'runTestsOnResponse').andCallFake(() => { return Promise.resolve('ok'); });
