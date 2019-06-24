@@ -1,6 +1,6 @@
 {
   "name": "taws",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A library for testing responses of requests",
   "author": "Michał Swat <michal.swat@dreamlab.pl>",
   "main": "lib/index.js",
@@ -17,22 +17,22 @@
     "node": ">= 6.0.0"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/DreamLab/taws.git"
+    "type": "git",
+    "url": "https://github.com/DreamLab/taws.git"
   },
   "dependencies": {
     "jsonschema": "1.1.1",
     "lodash": "^4.17.4",
-    "request": "2.81.0"
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "eslint": "^4.1.1",
-    "jasmine-node": "1.14.5",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "nock": "^9.0.13"
+    "jasmine-node": "^3.0.0",
+    "nock": "^10.0.6"
   }
 }
